@@ -28,13 +28,13 @@ function MuiTable(props) {
     enableEditing: false,
     enableRowActions: true,
     renderRowActions: actions,
-    enableSorting: false,
+    enableSorting: true,
     enableSortingRemoval: false,
     positionActionsColumn: "first",
     renderTopToolbarCustomActions: add ? topAction : undefined,
     muiTableHeadCellProps: {
       sx: {
-        backgroundColor: "#0a1d37",
+        backgroundColor: "#9c27b0",
         color: "#fff",
         fontWeight: "bold",
         fontSize: "14px",

@@ -11,6 +11,10 @@ export const url = {
   deleteEmployee: "http://localhost:8080/api/employee/delete",
   updateEmployee: "http://localhost:8080/api/employee/update",
   fetchEmployee: "http://localhost:8080/api/employee/fetch",
+  createProduct: "http://localhost:8080/api/product/create",
+  deleteProduct: "http://localhost:8080/api/product/delete",
+  updateProduct: "http://localhost:8080/api/product/update",
+  fetchProduct: "http://localhost:8080/api/product/fetch",
 };
 
 export function makeColumn(arr) {

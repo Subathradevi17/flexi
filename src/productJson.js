@@ -2,10 +2,10 @@ import { regex } from "./utils/utility";
 
 export const inputFormElements = [
   {
-    name: "empId",
+    name: "productId",
     type: "text",
 
-    label: "Emp Id",
+    label: "Product Id",
     variant: "outlined",
     fullWidth: true,
     required: true,
@@ -17,9 +17,9 @@ export const inputFormElements = [
     },
   },
   {
-    name: "name",
+    name: "productName",
     type: "text",
-    label: "Name",
+    label: " Product Name",
     variant: "outlined",
     fullWidth: true,
     required: true,
@@ -28,48 +28,41 @@ export const inputFormElements = [
   },
 
   {
-    name: "email",
+    name: "category",
     type: "text",
-    placeholder: "Enter email",
-    label: "Email",
+
+    label: "Category",
     variant: "outlined",
     fullWidth: true,
     required: true,
     xs: 12,
     sm: 4,
-    pattern: {
-      value: regex.validEmail,
-      message: "Invalid Email",
-    },
   },
   {
-    name: "phNo",
+    name: "price",
     type: "text",
-    placeholder: "Enter phone number",
-    label: "Phone",
+
+    label: "Price",
     variant: "outlined",
     fullWidth: true,
     required: true,
     xs: 12,
     sm: 4,
     pattern: {
-      value: regex.phoneNumber,
-      message: "Invalid Mobile",
+      value: regex.onlyNumbers,
+      message: "Only numbers are allowed",
     },
   },
 
   {
-    type: "select",
-    name: "role",
-    label: "Role",
+    name: "desc",
+    type: "text",
+
+    label: "Description",
     variant: "outlined",
+    fullWidth: true,
     required: true,
     xs: 12,
     sm: 4,
-    options: [
-      { label: "Admin", value: "admin" },
-      { label: "Junior", value: "junior" },
-      { label: "Senior", value: "senior" },
-    ],
   },
 ];

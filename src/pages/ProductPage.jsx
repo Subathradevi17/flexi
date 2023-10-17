@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
-import { inputFormElements } from "../employeeJson";
+import { inputFormElements } from "../productJson";
 import Fields from "../components/Field";
 import { useForm } from "react-hook-form";
 import http from "../utils/http-common";
@@ -17,15 +17,15 @@ import { useSnackbar } from "../utils/snackbar";
 import MuiTable from "../components/MuiTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-function EmployeePage(props) {
+function ProductPage(props) {
   const { showSnackbar } = useSnackbar();
-  const [employee, setEmployee] = useState([]);
+  const [product, setProduct] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
 
   const initialValues = {};
-  const col = makeColumn(employee);
-  const data = employee;
+  const col = makeColumn(product);
+  const data = product;
   const actions = ({ row, table }) => (
     <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
       <IconButton
@@ -62,11 +62,11 @@ function EmployeePage(props) {
     control,
     errors,
   };
-  const getEmployee = async () => {
+  const getProduct = async () => {
     try {
-      const response = await http.get(url.fetchEmployee);
+      const response = await http.get(url.fetchProduct);
       if (response.status === 200) {
-        setEmployee([...response.data]);
+        setProduct([...response.data]);
       } else {
         showSnackbar("Error", "error");
       }
@@ -80,20 +80,20 @@ function EmployeePage(props) {
   const onSubmit = async (data) => {
     try {
       let URL = isEdit
-        ? url.updateEmployee + `/${editData._id}`
-        : url.createEmployee;
+        ? url.updateProduct + `/${editData._id}`
+        : url.createProduct;
 
       const response = isEdit
         ? await http.put(URL, data)
         : await http.post(URL, data);
       if (response.status === 200) {
         showSnackbar(
-          `Employee ${isEdit ? "updated" : "created"} successfully`,
+          `Product ${isEdit ? "updated" : "created"} successfully`,
           "success"
         );
         reset(initialValues);
         setIsEdit(false);
-        getEmployee();
+        getProduct();
         return response.data;
       } else {
         showSnackbar("Error", "error");
@@ -110,7 +110,7 @@ function EmployeePage(props) {
   };
 
   useEffect(() => {
-    getEmployee();
+    getProduct();
   });
   const handleEdit = (data) => {
     setIsEdit(true);
@@ -120,10 +120,10 @@ function EmployeePage(props) {
 
   const handleDelete = async (data) => {
     try {
-      const response = await http.delete(url.deleteEmployee + "/" + data._id);
+      const response = await http.delete(url.deleteProduct + "/" + data._id);
       if (response.status === 200) {
-        showSnackbar(`Employee Deleted successfully`, "success");
-        getEmployee();
+        showSnackbar(`Product Deleted successfully`, "success");
+        getProduct();
       } else {
         showSnackbar("Error", "error");
       }
@@ -139,7 +139,7 @@ function EmployeePage(props) {
         <Card style={{ margin: "0 auto" }}>
           <CardContent>
             <Typography sx={{ color: "#9c27b0" }}>
-              Add Employee Details
+              Add Product Details
             </Typography>
             <br />
             <form onSubmit={handleSubmit(onSubmit)}>
@@ -181,4 +181,4 @@ function EmployeePage(props) {
   );
 }
 
-export default EmployeePage;
+export default ProductPage;
