@@ -21,6 +21,7 @@ const Textfield = React.forwardRef(
       autoComplete='off'
       inputRef={ref}
       label={label}
+      value={props.value}
       inputMode={props.inputMode}
       error={error}
       required={required}

@@ -32,6 +32,7 @@ function Fields(props) {
           label={fields.label}
           variant={fields.variant}
           options={fields.options}
+          {...(fields.value !== undefined ? { value: fields.value } : {})}
           error={!!errors[fields.name]}
           helperText={
             errors[fields.name]

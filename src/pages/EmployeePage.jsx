@@ -45,7 +45,7 @@ function EmployeePage(props) {
     </Box>
   );
   inputFormElements.forEach((item) => {
-    initialValues[item.name] = "";
+    initialValues[item.name] = item.value !== undefined ? item.value : "";
   });
   const {
     handleSubmit,
@@ -76,7 +76,19 @@ function EmployeePage(props) {
       throw error;
     }
   };
+  function calculateLeavesRemaining(employeeData) {
+    const { leaves, startDate, endDate } = employeeData;
+    const startDateObj = new Date(startDate);
+    const endDateObj = new Date(endDate);
+    const timeDifference = endDateObj - startDateObj;
+    const daysDifference = timeDifference / (1000 * 3600 * 24);
 
+    const leavesRemaining = leaves - daysDifference;
+
+    const updatedEmployeeData = { ...employeeData, leaves: leavesRemaining };
+
+    return updatedEmployeeData;
+  }
   const onSubmit = async (data) => {
     try {
       let URL = isEdit
@@ -84,8 +96,8 @@ function EmployeePage(props) {
         : url.createEmployee;
 
       const response = isEdit
-        ? await http.put(URL, data)
-        : await http.post(URL, data);
+        ? await http.put(URL, calculateLeavesRemaining(data))
+        : await http.post(URL, calculateLeavesRemaining(data));
       if (response.status === 200) {
         showSnackbar(
           `Employee ${isEdit ? "updated" : "created"} successfully`,
@@ -111,7 +123,7 @@ function EmployeePage(props) {
 
   useEffect(() => {
     getEmployee();
-  });
+  }, []);
   const handleEdit = (data) => {
     setIsEdit(true);
     reset(data);
@@ -133,6 +145,10 @@ function EmployeePage(props) {
       throw error;
     }
   };
+  const [apply, setApply] = useState(false);
+  const handleApplyLeave = () => {
+    setApply(!apply);
+  };
   return (
     <div>
       <Grid style={{ padding: "80px 5px 0 5px" }}>
@@ -144,7 +160,7 @@ function EmployeePage(props) {
             <br />
             <form onSubmit={handleSubmit(onSubmit)}>
               <Grid container spacing={2}>
-                {inputFormElements.map((input, i) => (
+                {inputFormElements.slice(0, 6).map((input, i) => (
                   <Grid xs={input.xs} sm={input.sm} item key={input.name}>
                     <Fields
                       index={i}
@@ -155,9 +171,29 @@ function EmployeePage(props) {
                 ))}
               </Grid>
               <br />
-
+              {apply && (
+                <Grid container spacing={2}>
+                  {inputFormElements.slice(6).map((input, i) => (
+                    <Grid xs={input.xs} sm={input.sm} item key={input.name}>
+                      <Fields
+                        index={i}
+                        value={input.value}
+                        fields={input}
+                        formControl={formControl}
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+              )}
               <Grid container spacing={1}>
                 <Grid item xs={12} align='right'>
+                  <Button
+                    onClick={handleApplyLeave}
+                    variant='outlined'
+                    color='secondary'
+                    style={{ marginRight: "8px" }}>
+                    Apply Leave
+                  </Button>
                   <Button
                     onClick={handleReset}
                     variant='outlined'

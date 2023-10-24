@@ -4,6 +4,7 @@ export const regex = {
   alphanumeric: /^[A-Za-z0-9]+$/,
   validEmail: /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
   phoneNumber: /^\d{10}$|^\d{3}[-\s]?\d{3}[-\s]?\d{4}$/,
+  date: /^(0[1-9]|1[0-2])\/(0[1-9]|[12][0-9]|3[01])\/\d{4}$/,
 };
 
 export const url = {
@@ -19,14 +20,21 @@ export const url = {
 
 export function makeColumn(arr) {
   return arr.length > 0
-    ? Object.keys(arr?.[0])
+    ? Object.keys(arr?.[arr.length - 1])
         .filter(
           (key) =>
-            typeof arr[0]?.[key] === "string" ||
-            typeof arr[0]?.[key] === "number"
+            typeof arr[arr.length - 1]?.[key] === "string" ||
+            typeof arr[arr.length - 1]?.[key] === "number"
         )
-        .filter((key) => arr[0][key] != null)
+        .filter((key) => arr[arr.length - 1][key] != null)
         .filter((key) => !key.includes("_"))
+        .filter(
+          (key) =>
+            key !== "leaveType" &&
+            key !== "startDate" &&
+            key !== "endDate" &&
+            key !== "status"
+        )
         .map((key) => ({
           accessorKey: key,
           header: key?.charAt(0).toUpperCase() + key?.slice(1),
