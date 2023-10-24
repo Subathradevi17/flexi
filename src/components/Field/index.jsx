@@ -14,7 +14,7 @@ const field = {
   checkbox: CheckboxField,
 };
 function Fields(props) {
-  const { fields, formControl, index } = props;
+  const { fields, formControl, index, isEdit } = props;
   const { errors, control } = formControl;
   const Component = field[fields.type];
   if (!fields.type) {
@@ -32,7 +32,9 @@ function Fields(props) {
           label={fields.label}
           variant={fields.variant}
           options={fields.options}
-          {...(fields.value !== undefined ? { value: fields.value } : {})}
+          {...(fields.value !== undefined && !isEdit
+            ? { value: fields.value }
+            : {})}
           error={!!errors[fields.name]}
           helperText={
             errors[fields.name]

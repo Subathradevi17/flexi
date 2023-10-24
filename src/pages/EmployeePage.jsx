@@ -163,6 +163,7 @@ function EmployeePage(props) {
                 {inputFormElements.slice(0, 6).map((input, i) => (
                   <Grid xs={input.xs} sm={input.sm} item key={input.name}>
                     <Fields
+                      isEdit={isEdit}
                       index={i}
                       fields={input}
                       formControl={formControl}
