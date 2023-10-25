@@ -17,13 +17,24 @@ import { useSnackbar } from "../utils/snackbar";
 import MuiTable from "../components/MuiTable";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import ApplyLeavePage from "./ApplyLeavePage";
+import { applyFormElements } from "../applyleaveJson";
 function EmployeePage(props) {
   const { showSnackbar } = useSnackbar();
   const [employee, setEmployee] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
+  const [leaveData, setLeaveData] = useState({});
 
+  const [apply, setApply] = useState(false);
+  const handleApplyLeave = () => {
+    setApply(false);
+    resetLeave(initialValuesLeave);
+    setLeaveData({});
+  };
   const initialValues = {};
+  const initialValuesLeave = {};
+
   const col = makeColumn(employee);
   const data = employee;
   const actions = ({ row, table }) => (
@@ -42,11 +53,63 @@ function EmployeePage(props) {
         color='error'>
         <DeleteIcon />
       </IconButton>
+      <Button
+        onClick={() => {
+          setLeaveData(row.original);
+          setApply(true);
+        }}
+        variant='contained'
+        color='secondary'
+        size='small'
+        style={{ marginRight: "8px" }}>
+        Apply Leave
+      </Button>
     </Box>
   );
+  applyFormElements.forEach((item) => {
+    initialValuesLeave[item.name] = item.value !== undefined ? item.value : "";
+  });
   inputFormElements.forEach((item) => {
     initialValues[item.name] = item.value !== undefined ? item.value : "";
   });
+  const {
+    handleSubmit: handleSubmitLeave,
+    control: controlLeave,
+    reset: resetLeave,
+    formState: { errors: errorsLeave },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: {
+      ...initialValuesLeave,
+    },
+  });
+  const onSubmitLeave = async (data) => {
+    try {
+      let URL = url.applyLeave;
+      const response = await http.post(URL, {
+        ...data,
+        name: leaveData.name,
+        empId: leaveData.empId,
+      });
+      if (response.status === 200) {
+        showSnackbar(
+          `Leave Applied for Employee ${leaveData.name} successfully`,
+          "success"
+        );
+        resetLeave(initialValuesLeave);
+        setApply(false);
+        setLeaveData({});
+        getEmployee();
+        return response.data;
+      } else {
+        showSnackbar("Error", "error");
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      showSnackbar(error, "error");
+      throw error;
+    }
+  };
   const {
     handleSubmit,
     control,
@@ -145,10 +208,7 @@ function EmployeePage(props) {
       throw error;
     }
   };
-  const [apply, setApply] = useState(false);
-  const handleApplyLeave = () => {
-    setApply(!apply);
-  };
+
   return (
     <div>
       <Grid style={{ padding: "80px 5px 0 5px" }}>
@@ -173,6 +233,31 @@ function EmployeePage(props) {
               </Grid>
               <br />
               {apply && (
+                <ApplyLeavePage
+                  open={apply}
+                  onClose={handleApplyLeave}
+                  onSubmit={handleSubmitLeave(onSubmitLeave)}
+                  leaveData={leaveData}
+                  contents={
+                    <Grid container spacing={2}>
+                      {applyFormElements.map((input, i) => (
+                        <Grid xs={input.xs} sm={input.sm} item key={input.name}>
+                          <Fields
+                            index={i}
+                            value={input.value}
+                            fields={input}
+                            formControl={{
+                              control: controlLeave,
+                              errors: errorsLeave,
+                            }}
+                          />
+                        </Grid>
+                      ))}
+                    </Grid>
+                  }
+                />
+              )}
+              {/* {apply && (
                 <Grid container spacing={2}>
                   {inputFormElements.slice(6).map((input, i) => (
                     <Grid xs={input.xs} sm={input.sm} item key={input.name}>
@@ -185,16 +270,9 @@ function EmployeePage(props) {
                     </Grid>
                   ))}
                 </Grid>
-              )}
+              )} */}
               <Grid container spacing={1}>
                 <Grid item xs={12} align='right'>
-                  <Button
-                    onClick={handleApplyLeave}
-                    variant='outlined'
-                    color='secondary'
-                    style={{ marginRight: "8px" }}>
-                    Apply Leave
-                  </Button>
                   <Button
                     onClick={handleReset}
                     variant='outlined'

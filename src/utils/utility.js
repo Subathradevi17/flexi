@@ -16,6 +16,7 @@ export const url = {
   deleteProduct: "http://localhost:8080/api/product/delete",
   updateProduct: "http://localhost:8080/api/product/update",
   fetchProduct: "http://localhost:8080/api/product/fetch",
+  applyLeave: "http://localhost:8080/api/leave/create",
 };
 
 export function makeColumn(arr) {
