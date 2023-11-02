@@ -19,13 +19,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ApplyLeavePage from "./ApplyLeavePage";
 import { applyFormElements } from "../applyleaveJson";
+import GenericDialog from "../components/Dialog";
 function EmployeePage(props) {
   const { showSnackbar } = useSnackbar();
   const [employee, setEmployee] = useState([]);
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
   const [leaveData, setLeaveData] = useState({});
-
+  const [leave, setLeave] = useState({});
   const [apply, setApply] = useState(false);
   const handleApplyLeave = () => {
     setApply(false);
@@ -34,7 +35,8 @@ function EmployeePage(props) {
   };
   const initialValues = {};
   const initialValuesLeave = {};
-
+  const collv = makeColumn(leave);
+  const datalv = leave;
   const col = makeColumn(employee);
   const data = employee;
   const actions = ({ row, table }) => (
@@ -63,6 +65,14 @@ function EmployeePage(props) {
         size='small'
         style={{ marginRight: "8px" }}>
         Apply Leave
+      </Button>
+      <Button
+        autoFocus
+        onClick={() => {
+          getLeave(row.original);
+          setLeaveHistory(true);
+        }}>
+        View Leave History
       </Button>
     </Box>
   );
@@ -139,19 +149,21 @@ function EmployeePage(props) {
       throw error;
     }
   };
-  function calculateLeavesRemaining(employeeData) {
-    const { leaves, startDate, endDate } = employeeData;
-    const startDateObj = new Date(startDate);
-    const endDateObj = new Date(endDate);
-    const timeDifference = endDateObj - startDateObj;
-    const daysDifference = timeDifference / (1000 * 3600 * 24);
+  const getLeave = async (data) => {
+    try {
+      const response = await http.get(url.fetchLeave + "/" + data.empId);
+      if (response.status === 200) {
+        setLeave([...response.data]);
+      } else {
+        showSnackbar("Error", "error");
+      }
+    } catch (error) {
+      console.error("API Error:", error);
+      showSnackbar(error, "error");
+      throw error;
+    }
+  };
 
-    const leavesRemaining = leaves - daysDifference;
-
-    const updatedEmployeeData = { ...employeeData, leaves: leavesRemaining };
-
-    return updatedEmployeeData;
-  }
   const onSubmit = async (data) => {
     try {
       let URL = isEdit
@@ -159,8 +171,8 @@ function EmployeePage(props) {
         : url.createEmployee;
 
       const response = isEdit
-        ? await http.put(URL, calculateLeavesRemaining(data))
-        : await http.post(URL, calculateLeavesRemaining(data));
+        ? await http.put(URL, data)
+        : await http.post(URL, data);
       if (response.status === 200) {
         showSnackbar(
           `Employee ${isEdit ? "updated" : "created"} successfully`,
@@ -208,6 +220,11 @@ function EmployeePage(props) {
       throw error;
     }
   };
+  const [leaveHistory, setLeaveHistory] = useState(false);
+  // const handleLeaveHistory = (data) => {
+  //   setLeaveHistory(true);
+  //   getLeave(data);
+  // };
 
   return (
     <div>
@@ -253,10 +270,31 @@ function EmployeePage(props) {
                           />
                         </Grid>
                       ))}
+
+                      <br />
+                      <br />
                     </Grid>
                   }
                 />
               )}
+
+              {leaveHistory && (
+                <GenericDialog
+                  open={leaveHistory}
+                  title={` Leave History `}
+                  onClose={() => {
+                    setLeaveHistory(false);
+                  }}
+                  onSubmit={handleSubmitLeave(onSubmitLeave)}
+                  leaveData={leaveData}
+                  content={<MuiTable columns={collv} data={datalv} />}
+                />
+              )}
+              {/* {leaveHistory && (
+                <Grid item xs={12}>
+                  <MuiTable columns={collv} data={datalv} />
+                </Grid>
+              )} */}
               {/* {apply && (
                 <Grid container spacing={2}>
                   {inputFormElements.slice(6).map((input, i) => (

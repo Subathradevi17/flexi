@@ -1,0 +1,67 @@
+{
+  "employee": {
+    "fields": [
+      {
+        "name": "empId",
+        "type": "text",
+        "label": "Emp Id",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Only numbers are allowed"
+        }
+      },
+      {
+        "name": "name",
+        "type": "text",
+        "label": "Name",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4
+      }
+    ],
+    "onSubmit": {
+      "apiType": "POST",
+      "endPoint": "/create"
+    }
+  },
+  "products": {
+    "fields": [
+      {
+        "name": "productId",
+        "type": "text",
+        "label": "Product Id",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Only numbers are allowed"
+        }
+      },
+      {
+        "name": "productId",
+        "type": "text",
+        "label": "Product Id",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Only numbers are allowed"
+        }
+      }
+    ],
+    "onSubmit": {
+      "apiType": "POST",
+      "endPoint": "/createProduct"
+    }
+  }
+}

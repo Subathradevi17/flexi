@@ -7,7 +7,6 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import Typography from "@mui/material/Typography";
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
@@ -19,7 +18,16 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 export default function GenericDialog(props) {
-  const { open, onClose, title, content, buttonText, onSubmit } = props;
+  const {
+    open,
+    onClose,
+    title,
+    content,
+
+    buttonText,
+
+    onSubmit,
+  } = props;
   return (
     <div>
       <BootstrapDialog
@@ -43,6 +51,7 @@ export default function GenericDialog(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>{content}</DialogContent>
+
         <DialogActions>
           <Button autoFocus onClick={onSubmit}>
             {buttonText}

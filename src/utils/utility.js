@@ -17,6 +17,7 @@ export const url = {
   updateProduct: "http://localhost:8080/api/product/update",
   fetchProduct: "http://localhost:8080/api/product/fetch",
   applyLeave: "http://localhost:8080/api/leave/create",
+  fetchLeave: "http://localhost:8080/api/leave/fetch",
 };
 
 export function makeColumn(arr) {
@@ -29,13 +30,7 @@ export function makeColumn(arr) {
         )
         .filter((key) => arr[arr.length - 1][key] != null)
         .filter((key) => !key.includes("_"))
-        .filter(
-          (key) =>
-            key !== "leaveType" &&
-            key !== "startDate" &&
-            key !== "endDate" &&
-            key !== "status"
-        )
+
         .map((key) => ({
           accessorKey: key,
           header: key?.charAt(0).toUpperCase() + key?.slice(1),
