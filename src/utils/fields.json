@@ -27,7 +27,11 @@
     ],
     "onSubmit": {
       "apiType": "POST",
-      "endPoint": "/create"
+      "endPoint": "http://localhost:8080/api/employee/create"
+    },
+    "onFetch": {
+      "apiType": "GET",
+      "endPoint": "http://localhost:8080/api/employee/fetch"
     }
   },
   "products": {
@@ -46,17 +50,14 @@
         }
       },
       {
-        "name": "productId",
+        "name": "productName",
         "type": "text",
-        "label": "Product Id",
+        "label": " Product Name",
         "variant": "outlined",
         "fullWidth": true,
         "required": true,
         "xs": 12,
-        "sm": 4,
-        "pattern": {
-          "message": "Only numbers are allowed"
-        }
+        "sm": 4
       }
     ],
     "onSubmit": {
