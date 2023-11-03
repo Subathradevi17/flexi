@@ -23,6 +23,45 @@
         "required": true,
         "xs": 12,
         "sm": 4
+      },
+      {
+        "name": "email",
+        "type": "text",
+        "placeholder": "Enter email",
+        "label": "Email",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Invalid Email"
+        }
+      },
+      {
+        "name": "address",
+        "type": "text",
+        "placeholder": "Enter Address",
+        "label": "Address",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4
+      },
+      {
+        "type": "select",
+        "name": "role",
+        "label": "Role",
+        "variant": "outlined",
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "options": [
+          { "label": "Admin", "value": "admin" },
+          { "label": "Junior", "value": "junior" },
+          { "label": "Senior", "value": "senior" }
+        ]
       }
     ],
     "onSubmit": {
@@ -76,5 +115,98 @@
       "apiType": "PUT",
       "endPoint": "http://localhost:8080/api/product/update"
     }
+  },
+  "customer": {
+    "fields": [
+      {
+        "name": "custId",
+        "type": "text",
+        "label": "cust Id",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Only numbers are allowed"
+        }
+      },
+      {
+        "name": "custname",
+        "type": "text",
+        "label": " cust Name",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4
+      },
+      {
+        "name": "email",
+        "type": "text",
+        "placeholder": "Enter email",
+        "label": "Email",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Invalid Email"
+        }
+      }
+    ]
+  },
+  "buyer": {
+    "fields": [
+      {
+        "name": "buyerId",
+        "type": "text",
+        "label": "buyer Id",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Only numbers are allowed"
+        }
+      },
+      {
+        "name": "buyername",
+        "type": "text",
+        "label": " Buyer Name",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4
+      },
+      {
+        "name": "email",
+        "type": "text",
+        "placeholder": "Enter email",
+        "label": "Email",
+        "variant": "outlined",
+        "fullWidth": true,
+        "required": true,
+        "xs": 12,
+        "sm": 4,
+        "pattern": {
+          "message": "Invalid Email"
+        }
+      },
+      {
+        "name": "option",
+        "type": "radio",
+        "label": "Options",
+        "required": true,
+        "options": [
+          { "value": "option1", "label": "Option 1" },
+          { "value": "option2", "label": "Option 2" },
+          { "value": "option3", "label": "Option 3" }
+        ]
+      }
+    ]
   }
 }

@@ -16,7 +16,6 @@ function NewField({ sectionName, sectionData, onBack }) {
   const [isEdit, setIsEdit] = useState(false);
   const [editData, setEditData] = useState({});
   const col = makeColumn(data);
-  console.log(sectionData);
   const actions = ({ row, table }) => (
     <Box sx={{ display: "flex", flexWrap: "nowrap", gap: "8px" }}>
       <IconButton
@@ -34,7 +33,6 @@ function NewField({ sectionName, sectionData, onBack }) {
     setEditData({ ...data });
     setShowForm(true);
   };
-  // console.log(editData);
   const initialValues = {};
   sectionData.fields.forEach((field) => {
     initialValues[field.name] = field.value !== undefined ? field.value : "";
@@ -64,7 +62,7 @@ function NewField({ sectionName, sectionData, onBack }) {
           : await http.post(endpoint, data);
         if (response.status === 200) {
           showSnackbar(
-            `Employee ${isEdit ? "updated" : "created"} successfully`,
+            `${sectionName} ${isEdit ? "updated" : "created"} successfully`,
             "success"
           );
           reset(initialValues);
@@ -81,27 +79,7 @@ function NewField({ sectionName, sectionData, onBack }) {
       }
     }
   };
-  // const hanldeSubmit = async (data) => {
-  //   try {
-  //     const requestData = {
-  //       ...data,
-  //     };
 
-  //     const response = await http({
-  //       method: sectionData.onSubmit.apiType,
-  //       url: sectionData.onSubmit.endPoint,
-  //       data: requestData,
-  //     });
-
-  //     if (response.status === 200) {
-  //       console.log(response.data);
-  //     } else {
-  //       console.error("API Error:", response);
-  //     }
-  //   } catch (error) {
-  //     console.error("API Request Error:", error);
-  //   }
-  // };
   const handleCreateClick = () => {
     setShowForm(true);
     setShowTable(false);
