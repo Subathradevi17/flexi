@@ -1,6 +1,10 @@
 import React, { Suspense } from "react";
 // import DrawerComponent from "./Layout/Drawercomponents";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useNavigate,
+} from "react-router-dom";
 // import Dashboard from "./screens/Dashboard";
 // import Products from "./screens/Products";
 import NewHomePage from "./pages/NewHomePage";
