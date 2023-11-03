@@ -34,7 +34,7 @@ function MuiTable(props) {
     renderTopToolbarCustomActions: add ? topAction : undefined,
     muiTableHeadCellProps: {
       sx: {
-        backgroundColor: "#9c27b0",
+        backgroundColor: "#040440",
         color: "#fff",
         fontWeight: "bold",
         fontSize: "14px",

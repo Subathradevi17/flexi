@@ -14,7 +14,7 @@ function NewHomePage(props) {
       <NewField
         sectionName={selectedSection}
         sectionData={fieldData[selectedSection]}
-        onBack={() => setSelectedSection(null)}
+        // onBack={() => setSelectedSection(null)}
       />
     </div>
   );
