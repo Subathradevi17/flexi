@@ -5,17 +5,16 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 // import Products from "./screens/Products";
 import NewHomePage from "./pages/NewHomePage";
 import DrawerComponent from "./Layout/Drawercomponents/index";
+import fieldData from "./utils/fields.json";
 function Routes(props) {
   const routerConfig = [
     {
       path: "/",
       element: <DrawerComponent />,
-      children: [
-        {
-          path: "/dashboard",
-          element: <NewHomePage />,
-        },
-      ],
+      children: Object.keys(fieldData).map((sectionName) => ({
+        path: `/${sectionName.toLowerCase()}`,
+        element: <NewHomePage sectionName={sectionName} />,
+      })),
     },
   ];
   const router = createBrowserRouter(routerConfig);

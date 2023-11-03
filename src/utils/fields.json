@@ -1,5 +1,5 @@
 {
-  "employee": {
+  "Employee": {
     "fields": [
       {
         "name": "empId",
@@ -77,7 +77,7 @@
       "endPoint": "http://localhost:8080/api/employee/update"
     }
   },
-  "products": {
+  "Products": {
     "fields": [
       {
         "name": "productId",
@@ -116,7 +116,7 @@
       "endPoint": "http://localhost:8080/api/product/update"
     }
   },
-  "customer": {
+  "Customer": {
     "fields": [
       {
         "name": "custId",
@@ -157,7 +157,7 @@
       }
     ]
   },
-  "buyer": {
+  "Buyer": {
     "fields": [
       {
         "name": "buyerId",

@@ -22,6 +22,7 @@ import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useStyles } from "./styles";
 import PropTypes from "prop-types";
 import { v4 as uuidv4 } from "uuid";
+import { TbHexagonNumber0 } from "react-icons/tb";
 import {
   AppBar,
   FormControl,
@@ -32,6 +33,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import SearchIcon from "@mui/icons-material/Search";
 import fieldData from "../../utils/fields.json";
+import BasicAccordion from "../../components/Accordion/index";
 const drawerWidth = 200;
 
 function DrawerComponent(props) {
@@ -42,6 +44,7 @@ function DrawerComponent(props) {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const menu = Object.keys(fieldData).map((sectionName) => ({
     title: sectionName,
+    path: `/${sectionName.toLowerCase()}`,
     // onClick: () => setSelectedSection(sectionName),
   }));
 
@@ -57,42 +60,44 @@ function DrawerComponent(props) {
   const activeRoute = (routeName) => {
     return location.pathname.indexOf(routeName) > -1 ? true : false;
   };
+  const title = "Master Table Data";
+  const data = (
+    <div className={classes.drawerItem}>
+      <List>
+        {menu.map((text, index) => (
+          <Link key={uuidv4()} to={text.path}>
+            <ListItem
+              className={`${classes.drawerItemMenus} ${
+                activeRoute(text.path) ? classes.drawerItemMenu : ""
+              }`}
+              disablePadding>
+              <ListItemButton>
+                <ListItemIcon className={classes.icon}>
+                  {text.icon}
+                </ListItemIcon>
+                <ListItemText className={classes.title} primary={text.title} />
+
+                {text.title !== "Dashboard" && (
+                  <span className={classes.colorWhite}></span>
+                )}
+              </ListItemButton>
+            </ListItem>
+          </Link>
+        ))}
+      </List>
+    </div>
+  );
   const drawer = (
     <div>
       <Toolbar className={classes.storeName}>
-        {/* <TbHexagonNumber0 size={24} style={{ marginRight: "8px" }} /> */}
+        <TbHexagonNumber0 size={24} style={{ marginRight: "8px" }} />
         <Typography variant='h6' style={{ color: "#ffffff" }} component='div'>
           Dashboard
         </Typography>
       </Toolbar>
       <Divider />
-      <div className={classes.drawerItem}>
-        <List>
-          {menu.map((text, index) => (
-            <Link key={uuidv4()} to={text.path}>
-              <ListItem
-                className={`${classes.drawerItemMenus} ${
-                  activeRoute(text.path) ? classes.drawerItemMenu : ""
-                }`}
-                disablePadding>
-                <ListItemButton>
-                  <ListItemIcon className={classes.icon}>
-                    {text.icon}
-                  </ListItemIcon>
-                  <ListItemText
-                    className={classes.title}
-                    primary={text.title}
-                  />
+      <BasicAccordion title={title} data={data} />
 
-                  {text.title !== "Dashboard" && (
-                    <span className={classes.colorWhite}>></span>
-                  )}
-                </ListItemButton>
-              </ListItem>
-            </Link>
-          ))}
-        </List>
-      </div>
       <Divider />
     </div>
   );
@@ -100,7 +105,7 @@ function DrawerComponent(props) {
     window !== undefined ? () => window().document.body : undefined;
 
   return (
-    <Box sx={{ display: "" }}>
+    <Box sx={{ display: "flex" }}>
       <AppBar
         className={classes.appBar}
         position='fixed'
